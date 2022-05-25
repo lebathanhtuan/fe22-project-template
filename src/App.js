@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
@@ -14,36 +14,40 @@ import LoginPage from "./pages/LoginPage";
 
 import { ROUTES } from "./constants/routes";
 
+export const NameContext = createContext();
+
 function App() {
   const [name, setName] = useState("");
   return (
-    <Routes>
-      <Route element={<AdminLayout />}>
-        <Route
-          path={ROUTES.ADMIN.DASHBOARD}
-          element={<HomePage />}
-        />
-        <Route
-          path={ROUTES.ADMIN.PRODUCT_LIST}
-          element={
-            <ProductListPage
-              name={name}
-              setName={setName}
-            />
-          }
-        />
-        <Route
-          path={ROUTES.ADMIN.PRODUCT_DETAIL}
-          element={<ProductDetailPage />}
-        />
-      </Route>
-      <Route element={<LoginLayout />}>
-        <Route
-          path={ROUTES.LOGIN}
-          element={<LoginPage />}
-        />
-      </Route>
-    </Routes>
+    <NameContext.Provider
+      value={{
+        name: name,
+        setName: setName,
+      }}
+    >
+      <Routes>
+        <Route element={<AdminLayout />}>
+          <Route
+            path={ROUTES.ADMIN.DASHBOARD}
+            element={<HomePage />}
+          />
+          <Route
+            path={ROUTES.ADMIN.PRODUCT_LIST}
+            element={<ProductListPage />}
+          />
+          <Route
+            path={ROUTES.ADMIN.PRODUCT_DETAIL}
+            element={<ProductDetailPage />}
+          />
+        </Route>
+        <Route element={<LoginLayout />}>
+          <Route
+            path={ROUTES.LOGIN}
+            element={<LoginPage />}
+          />
+        </Route>
+      </Routes>
+    </NameContext.Provider>
   );
 }
 

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "antd";
+import { NameContext } from "../../App";
 
 import * as S from "./styles";
 
-function Header({ name, isShowSidebar, setIsShowSidebar }) {
+function Header({ isShowSidebar, setIsShowSidebar }) {
+  const { name } = useContext(NameContext);
+
   function handleToggleSidebar() {
     setIsShowSidebar(!isShowSidebar);
   }
