@@ -1,0 +1,117 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "iPhone X",
+      "price": 9.99,
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "name": "iPhone 11",
+      "price": 9.99,
+      "categoryId": 1
+    },
+    {
+      "id": 3,
+      "name": "Xiaomi Mi 11",
+      "price": 9.99,
+      "categoryId": 2
+    },
+    {
+      "id": 4,
+      "name": "Xiaomi Mi 12",
+      "price": 9.99,
+      "categoryId": 2
+    },
+    {
+      "id": 5,
+      "name": "Samsung Galaxy S10",
+      "price": 9.99,
+      "categoryId": 3
+    },
+    {
+      "name": "iPhone 13",
+      "price": 10000,
+      "categoryId": 1,
+      "id": 6
+    },
+    {
+      "name": "iPhone 14",
+      "price": 50000,
+      "categoryId": 1,
+      "id": 7
+    },
+    {
+      "name": "iPhone XS Max",
+      "price": 123,
+      "categoryId": 1,
+      "id": 8
+    },
+    {
+      "name": "iPhone XS Max",
+      "price": 12345,
+      "categoryId": 1,
+      "id": 9
+    },
+    {
+      "name": "Oppo reno 5",
+      "price": 1000000,
+      "categoryId": 4,
+      "id": 10
+    },
+    {
+      "name": "abc",
+      "price": 123321123,
+      "categoryId": 2,
+      "id": 12
+    },
+    {
+      "name": "123321",
+      "price": 123321123,
+      "categoryId": 2,
+      "id": 13
+    },
+    {
+      "name": "123321",
+      "price": 123321123,
+      "categoryId": 2,
+      "id": 14
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Apple"
+    },
+    {
+      "id": 2,
+      "name": "Xiaomi"
+    },
+    {
+      "id": 3,
+      "name": "Samsung"
+    },
+    {
+      "id": 4,
+      "name": "OPPO"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "productId": 1,
+      "content": "I love this phone!"
+    },
+    {
+      "id": 2,
+      "productId": 1,
+      "content": "I love this phone!"
+    },
+    {
+      "id": 3,
+      "productId": 2,
+      "content": "I love this phone!"
+    }
+  ]
+}

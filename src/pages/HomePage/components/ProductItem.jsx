@@ -1,19 +1,7 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Form,
-  Card,
-  Input,
-  Checkbox,
-  InputNumber,
-  Select,
-  Radio,
-  Space,
-} from "antd";
-import {
-  useNavigate,
-  generatePath,
-} from "react-router-dom";
+import React, { useState, useMemo } from "react";
+import { Button, Form, Card, Input, InputNumber, Select, Space } from "antd";
+import { useNavigate, generatePath } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { ROUTES } from "../../../constants/routes";
 
@@ -26,48 +14,42 @@ function ProductItem({
 
   const navigate = useNavigate();
 
+  const { categoryList } = useSelector((state) => state.category);
+
+  const renderCategoryOptions = useMemo(() => {
+    return categoryList.map((item) => {
+      return (
+        <Select.Option key={item.id} value={item.id}>
+          {item.name}
+        </Select.Option>
+      );
+    });
+  }, [categoryList]);
+
   if (!isUpdate) {
     return (
       <Card
         size="small"
-        title={`${productData.isNew && "[NEW]"}${
-          productData.productName
-        }`}
+        title={productData.name}
         style={{ marginTop: 16, backgroundColor: "#ccc" }}
       >
-        <div>Description: {productData.description}</div>
-        <div>
-          Price: {productData.price?.toLocaleString()} VND
-        </div>
-        <div>Brand: {productData.brand}</div>
-        <div>Option: {productData.option?.join(", ")}</div>
-        <div>Color: {productData.color}</div>
+        <div>{productData.category.name}</div>
         <Space style={{ marginTop: 16 }}>
           <Button
             ghost
             onClick={() => {
-              const newPath = generatePath(
-                ROUTES.ADMIN.PRODUCT_DETAIL,
-                { id: productData.id }
-              );
+              const newPath = generatePath(ROUTES.ADMIN.PRODUCT_DETAIL, {
+                id: productData.id,
+              });
               navigate(newPath);
             }}
           >
             Detail
           </Button>
-          <Button
-            type="primary"
-            ghost
-            onClick={() => setIsUpdate(true)}
-          >
+          <Button type="primary" ghost onClick={() => setIsUpdate(true)}>
             Update
           </Button>
-          <Button
-            danger
-            onClick={() =>
-              handleDeleteProduct(productData.id)
-            }
-          >
+          <Button danger onClick={() => handleDeleteProduct(productData.id)}>
             Delete
           </Button>
         </Space>
@@ -77,80 +59,69 @@ function ProductItem({
   return (
     <Card
       size="small"
-      title={`Update ${productData.isNew && "[NEW]"}${
-        productData.productName
-      }`}
+      title={`Update ${productData.name}`}
       style={{ marginTop: 16, backgroundColor: "#ccc" }}
     >
       <Form
         name="Update Product"
         layout="vertical"
         initialValues={{
-          productName: productData.productName,
-          description: productData.description,
+          name: productData.name,
           price: productData.price,
-          brand: productData.brand,
-          option: productData.option,
-          color: productData.color,
-          isNew: productData.isNew,
+          categoryId: productData.categoryId,
         }}
         onFinish={(values) => {
           handleUpdateProduct(productData.id, values);
           setIsUpdate(false);
         }}
       >
-        <Form.Item label="Product Name" name="productName">
-          <Input />
+        <Form.Item
+          label="Tên sản phẩm"
+          name="name"
+          validateFirst
+          rules={[
+            {
+              required: true,
+              message: "Name là bắt buộc!",
+            },
+          ]}
+        >
+          <Input placeholder="Tên sản phẩm" />
         </Form.Item>
-        <Form.Item label="Description" name="description">
-          <Input.TextArea />
+        <Form.Item
+          label="Giá sản phẩm"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: "Giá là bắt buộc!",
+            },
+            {
+              type: "number",
+              min: 500000,
+              message: "Giá phải lớn hơn 500.000!",
+            },
+          ]}
+        >
+          <InputNumber placeholder="Giá sản phẩm" />
         </Form.Item>
-        <Form.Item label="Price" name="price">
-          <InputNumber />
-        </Form.Item>
-        <Form.Item label="Brand" name="brand">
-          <Select>
-            <Select.Option value="apple">
-              Apple
-            </Select.Option>
-            <Select.Option value="samsung">
-              Samsung
-            </Select.Option>
-            <Select.Option value="xiaomi">
-              Xiaomi
-            </Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item label="Option" name="option">
-          <Checkbox.Group
-            options={[
-              {
-                label: "Option 1",
-                value: "1",
-              },
-              {
-                label: "Option 2",
-                value: "2",
-              },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item label="Color" name="color">
-          <Radio.Group>
-            <Radio value="black">Black</Radio>
-            <Radio value="white">White</Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item name="isNew" valuePropName="checked">
-          <Checkbox>Is New</Checkbox>
+        <Form.Item
+          label="Hãng sản xuất"
+          name="categoryId"
+          rules={[
+            {
+              required: true,
+              message: "Hãng là bắt buộc!",
+            },
+          ]}
+        >
+          <Select placeholder="Hãng sản xuất">{renderCategoryOptions}</Select>
         </Form.Item>
         <Space>
           <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <Button onClick={() => setIsUpdate(false)}>
-            Cancel
-          </Button>
+          <Button onClick={() => setIsUpdate(false)}>Cancel</Button>
         </Space>
       </Form>
     </Card>

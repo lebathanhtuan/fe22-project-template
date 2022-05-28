@@ -1,47 +1,31 @@
 import React, { useEffect, useMemo } from "react";
-import {
-  Button,
-  Form,
-  Card,
-  Input,
-  Checkbox,
-  InputNumber,
-  Select,
-  Radio,
-} from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Form, Card, Input, InputNumber, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 import ProductItem from "./components/ProductItem";
 
 import {
+  getProductListAction,
   createProductAction,
   updateProductAction,
   deleteProductAction,
-} from "../../redux/actions/product.action";
-
-import { ROUTES } from "../../constants/routes";
+  getCategoryListAction,
+} from "../../redux/actions";
 
 const initialValues = {
   productName: "",
-  description: "",
   price: 0,
-  brand: "",
-  option: [],
-  color: "",
-  isNew: false,
+  categoryId: undefined,
 };
 
 function HomePage() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { productList } = useSelector(
-    (state) => state.product
-  );
+  const { productList, createLoading } = useSelector((state) => state.product);
+  const { categoryList } = useSelector((state) => state.category);
 
   useEffect(() => {
-    console.log("Mới vào Home Page");
-    // Gọi API để lấy dữ liệu
+    dispatch(getProductListAction());
+    dispatch(getCategoryListAction());
   }, []);
 
   function handleCreateProduct(values) {
@@ -69,40 +53,19 @@ function HomePage() {
     });
   }, [productList]);
 
+  const renderCategoryOptions = useMemo(() => {
+    return categoryList.map((item) => {
+      return (
+        <Select.Option key={item.id} value={item.id}>
+          {item.name}
+        </Select.Option>
+      );
+    });
+  }, [categoryList]);
+
   return (
     <>
-      <div>
-        <a href={ROUTES.ADMIN.PRODUCT_LIST}>
-          Đi đến danh sách sản phẩm (thẻ a)
-        </a>
-      </div>
-      <div>
-        <Link to={ROUTES.ADMIN.PRODUCT_LIST}>
-          Đi đến danh sách sản phẩm (Link)
-        </Link>
-      </div>
-      <div>
-        <Button
-          type="primary"
-          onClick={() => {
-            window.location.href =
-              ROUTES.ADMIN.PRODUCT_LIST;
-          }}
-        >
-          Chuyển trang bằng window.location.href
-        </Button>
-      </div>
-      <div>
-        <Button
-          type="primary"
-          onClick={() => {
-            navigate(ROUTES.ADMIN.PRODUCT_LIST);
-          }}
-        >
-          Chuyển trang bằng navigate
-        </Button>
-      </div>
-      <Card size="small" title="Create Product">
+      <Card size="small" title="Tạo sản phẩm mới">
         <Form
           name="Create Product"
           layout="vertical"
@@ -110,8 +73,8 @@ function HomePage() {
           onFinish={(values) => handleCreateProduct(values)}
         >
           <Form.Item
-            label="Product Name"
-            name="productName"
+            label="Tên sản phẩm"
+            name="name"
             validateFirst
             rules={[
               {
@@ -120,64 +83,39 @@ function HomePage() {
               },
             ]}
           >
-            <Input />
+            <Input placeholder="Tên sản phẩm" />
           </Form.Item>
           <Form.Item
-            label="Description"
-            name="description"
+            label="Giá sản phẩm"
+            name="price"
             rules={[
               {
                 required: true,
-                whitespace: true,
-                message: "Description là bắt buộc!",
+                message: "Giá là bắt buộc!",
+              },
+              {
+                type: "number",
+                min: 500000,
+                message: "Giá phải lớn hơn 500.000!",
               },
             ]}
           >
-            <Input.TextArea
-              autoSize={{ minRows: 2, maxRows: 6 }}
-            />
+            <InputNumber placeholder="Giá sản phẩm" />
           </Form.Item>
-          <Form.Item label="Price" name="price">
-            <InputNumber />
+          <Form.Item
+            label="Hãng sản xuất"
+            name="categoryId"
+            rules={[
+              {
+                required: true,
+                message: "Hãng là bắt buộc!",
+              },
+            ]}
+          >
+            <Select placeholder="Hãng sản xuất">{renderCategoryOptions}</Select>
           </Form.Item>
-          <Form.Item label="Brand" name="brand">
-            <Select>
-              <Select.Option value="apple">
-                Apple
-              </Select.Option>
-              <Select.Option value="samsung">
-                Samsung
-              </Select.Option>
-              <Select.Option value="xiaomi">
-                Xiaomi
-              </Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item label="Option" name="option">
-            <Checkbox.Group
-              options={[
-                {
-                  label: "Option 1",
-                  value: "1",
-                },
-                {
-                  label: "Option 2",
-                  value: "2",
-                },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item label="Color" name="color">
-            <Radio.Group>
-              <Radio value="black">Black</Radio>
-              <Radio value="white">White</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item name="isNew" valuePropName="checked">
-            <Checkbox>Is New</Checkbox>
-          </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Submit
+          <Button type="primary" htmlType="submit" loading={createLoading}>
+            Tạo sản phẩm
           </Button>
         </Form>
       </Card>

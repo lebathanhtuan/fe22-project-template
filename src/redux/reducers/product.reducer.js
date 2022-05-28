@@ -1,47 +1,60 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   productList: [],
+  productListLoading: false,
+  productListError: "",
+  productListMeta: {},
   productDetail: {},
+  productDetailLoading: false,
+  productDetailError: "",
+  createLoading: false,
 };
 
 const productReducer = createReducer(initialState, {
-  CREATE_PRODUCT: (state, action) => {
+  GET_PRODUCT_LIST_SUCCESS: (state, action) => {
     const { data } = action.payload;
-    const newProduct = {
-      id: uuidv4(),
-      ...data,
-    };
     return {
       ...state,
-      productList: [newProduct, ...state.productList],
+      productList: data,
     };
   },
-  UPDATE_PRODUCT: (state, action) => {
-    const { id, data } = action.payload;
-    const newProductList = [...state.productList];
-    const productIndex = state.productList.findIndex(
-      (item) => item.id === id
-    );
-    newProductList.splice(productIndex, 1, {
-      id: id,
-      ...data,
-    });
+  GET_PRODUCT_LIST_FAIL: (state, action) => {
+    const { error } = action.payload;
     return {
       ...state,
-      productList: newProductList,
+      productListError: error,
     };
   },
-  DELETE_PRODUCT: (state, action) => {
-    const { id } = action.payload;
-    const newProductList = state.productList.filter(
-      (item) => item.id !== id
-    );
+  CREATE_PRODUCT_REQUEST: (state, action) => {
     return {
       ...state,
-      productList: newProductList,
+      createLoading: true,
     };
+  },
+  CREATE_PRODUCT_SUCCESS: (state, action) => {
+    return {
+      ...state,
+      createLoading: false,
+    };
+  },
+  CREATE_PRODUCT_FAIL: (state, action) => {
+    return {
+      ...state,
+      createLoading: false,
+    };
+  },
+  UPDATE_PRODUCT_SUCCESS: (state, action) => {
+    return state;
+  },
+  UPDATE_PRODUCT_FAIL: (state, action) => {
+    return state;
+  },
+  DELETE_PRODUCT_SUCCESS: (state, action) => {
+    return state;
+  },
+  DELETE_PRODUCT_FAIL: (state, action) => {
+    return state;
   },
 });
 
