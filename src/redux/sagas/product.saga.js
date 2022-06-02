@@ -1,5 +1,6 @@
 import { put, takeEvery } from "redux-saga/effects";
 import axios from "axios";
+import { REQUEST, SUCCESS, FAIL, PRODUCT_ACTION } from "../contants";
 
 function* getProductListSaga(action) {
   try {
@@ -10,14 +11,14 @@ function* getProductListSaga(action) {
       },
     });
     yield put({
-      type: "GET_PRODUCT_LIST_SUCCESS",
+      type: SUCCESS(PRODUCT_ACTION.GET_PRODUCT_LIST),
       payload: {
         data: result.data,
       },
     });
   } catch (e) {
     yield put({
-      type: "GET_PRODUCT_LIST_FAIL",
+      type: FAIL(PRODUCT_ACTION.GET_PRODUCT_LIST),
       payload: {
         error: "Lỗi không xác định",
       },
@@ -29,11 +30,11 @@ function* createProductSaga(action) {
   try {
     const { data } = action.payload;
     yield axios.post(`http://localhost:4000/products`, data);
-    yield put({ type: "CREATE_PRODUCT_SUCCESS" });
-    yield put({ type: "GET_PRODUCT_LIST_REQUEST" });
+    yield put({ type: SUCCESS(PRODUCT_ACTION.CREATE_PRODUCT) });
+    yield put({ type: REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST) });
   } catch (e) {
     yield put({
-      type: "CREATE_PRODUCT_FAIL",
+      type: FAIL(PRODUCT_ACTION.CREATE_PRODUCT),
       payload: {
         error: "Lỗi không xác định",
       },
@@ -45,11 +46,11 @@ function* updateProductSaga(action) {
   try {
     const { id, data } = action.payload;
     yield axios.patch(`http://localhost:4000/products/${id}`, data);
-    yield put({ type: "UPDATE_PRODUCT_SUCCESS" });
-    yield put({ type: "GET_PRODUCT_LIST_REQUEST" });
+    yield put({ type: SUCCESS(PRODUCT_ACTION.UPDATE_PRODUCT) });
+    yield put({ type: REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST) });
   } catch (e) {
     yield put({
-      type: "UPDATE_PRODUCT_FAIL",
+      type: FAIL(PRODUCT_ACTION.UPDATE_PRODUCT),
       payload: {
         error: "Lỗi không xác định",
       },
@@ -61,11 +62,11 @@ function* deleteProductSaga(action) {
   try {
     const { id } = action.payload;
     yield axios.delete(`http://localhost:4000/products/${id}`);
-    yield put({ type: "DELETE_PRODUCT_SUCCESS" });
-    yield put({ type: "GET_PRODUCT_LIST_REQUEST" });
+    yield put({ type: SUCCESS(PRODUCT_ACTION.DELETE_PRODUCT) });
+    yield put({ type: REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST) });
   } catch (e) {
     yield put({
-      type: "DELETE_PRODUCT_FAIL",
+      type: FAIL(PRODUCT_ACTION.DELETE_PRODUCT),
       payload: {
         error: "Lỗi không xác định",
       },
@@ -74,8 +75,8 @@ function* deleteProductSaga(action) {
 }
 
 export default function* productSaga() {
-  yield takeEvery("GET_PRODUCT_LIST_REQUEST", getProductListSaga);
-  yield takeEvery("CREATE_PRODUCT_REQUEST", createProductSaga);
-  yield takeEvery("UPDATE_PRODUCT_REQUEST", updateProductSaga);
-  yield takeEvery("DELETE_PRODUCT_REQUEST", deleteProductSaga);
+  yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST), getProductListSaga);
+  yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
+  yield takeEvery(REQUEST(PRODUCT_ACTION.UPDATE_PRODUCT), updateProductSaga);
+  yield takeEvery(REQUEST(PRODUCT_ACTION.DELETE_PRODUCT), deleteProductSaga);
 }

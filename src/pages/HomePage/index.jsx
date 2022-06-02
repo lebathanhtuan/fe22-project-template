@@ -20,7 +20,9 @@ const initialValues = {
 
 function HomePage() {
   const dispatch = useDispatch();
-  const { productList, createLoading } = useSelector((state) => state.product);
+  const { productList, createProductData } = useSelector(
+    (state) => state.product
+  );
   const { categoryList } = useSelector((state) => state.category);
 
   useEffect(() => {
@@ -41,7 +43,8 @@ function HomePage() {
   }
 
   const renderProductList = useMemo(() => {
-    return productList.map((item, index) => {
+    if (productList.loading) return <div>Loading...</div>;
+    return productList.data.map((item, index) => {
       return (
         <ProductItem
           key={index}
@@ -114,7 +117,11 @@ function HomePage() {
           >
             <Select placeholder="Hãng sản xuất">{renderCategoryOptions}</Select>
           </Form.Item>
-          <Button type="primary" htmlType="submit" loading={createLoading}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={createProductData.loading}
+          >
             Tạo sản phẩm
           </Button>
         </Form>

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Outlet, Navigate } from "react-router-dom";
 
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import Footer from "../Footer";
+
+import { ROUTES } from "../../constants/routes";
 
 import * as S from "./styles";
 
@@ -11,10 +13,9 @@ function AdminLayout() {
   const [isShowSidebar, setIsShowSidebar] = useState(true);
   const userName = "Tuấn";
 
-  // useEffect(() => {
-  //   console.log("Mới vào Admin Layout");
-  // }, []);
+  const accessToken = localStorage.getItem("accessToken");
 
+  if (!accessToken) return <Navigate to={ROUTES.LOGIN} />;
   return (
     <>
       <Header

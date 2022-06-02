@@ -1,11 +1,15 @@
 {
-  "products": [
+  "users": [
     {
-      "id": 1,
-      "name": "iPhone X",
-      "price": 9.99,
-      "categoryId": 1
-    },
+      "email": "tuan@gmail.com",
+      "password": "$2a$10$C6IBcQpg669ZQgkEWLtfG.dPopvRvML.RRylCqhkknVGQni57b2cS",
+      "fullName": "Lê Bá Thanh Tuấn",
+      "createdAt": 1654175020664,
+      "updatedAt": 1654175020664,
+      "id": 1
+    }
+  ],
+  "products": [
     {
       "id": 2,
       "name": "iPhone 11",
@@ -71,12 +75,6 @@
       "price": 123321123,
       "categoryId": 2,
       "id": 13
-    },
-    {
-      "name": "123321",
-      "price": 123321123,
-      "categoryId": 2,
-      "id": 14
     }
   ],
   "categories": [
@@ -98,16 +96,6 @@
     }
   ],
   "comments": [
-    {
-      "id": 1,
-      "productId": 1,
-      "content": "I love this phone!"
-    },
-    {
-      "id": 2,
-      "productId": 1,
-      "content": "I love this phone!"
-    },
     {
       "id": 3,
       "productId": 2,

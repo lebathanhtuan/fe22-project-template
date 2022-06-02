@@ -1,0 +1,6 @@
+export const USER_ACTION = {
+  LOGIN: "LOGIN",
+  REGISTER: "REGISTER",
+  LOGOUT: "LOGOUT",
+  GET_USER_INFO: "GET_USER_INFO",
+};
