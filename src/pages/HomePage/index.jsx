@@ -68,6 +68,7 @@ function HomePage() {
 
   return (
     <>
+      <h1>Task A</h1>
       <Card size="small" title="Tạo sản phẩm mới">
         <Form
           name="Create Product"
@@ -76,7 +77,7 @@ function HomePage() {
           onFinish={(values) => handleCreateProduct(values)}
         >
           <Form.Item
-            label="Tên sản phẩm"
+            label="Tên sản phẩm AA"
             name="name"
             validateFirst
             rules={[
@@ -117,11 +118,7 @@ function HomePage() {
           >
             <Select placeholder="Hãng sản xuất">{renderCategoryOptions}</Select>
           </Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={createProductData.loading}
-          >
+          <Button htmlType="submit" loading={createProductData.loading}>
             Tạo sản phẩm
           </Button>
         </Form>
