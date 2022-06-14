@@ -68,7 +68,7 @@ function HomePage() {
 
   return (
     <>
-      <h1>Task A</h1>
+      <h1>Task B</h1>
       <Card size="small" title="Tạo sản phẩm mới">
         <Form
           name="Create Product"
