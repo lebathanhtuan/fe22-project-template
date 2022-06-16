@@ -6,7 +6,7 @@ export const HeaderContainer = styled.div`
   align-items: center;
   padding: 16px;
   height: 56px;
-  background-color: #e37171;
+  background-color: #b37feb;
 `;
 
 export const HeaderLogo = styled.div`

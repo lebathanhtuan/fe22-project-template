@@ -4,6 +4,9 @@ import { REQUEST, PRODUCT_ACTION } from "../contants";
 export const getProductListAction = createAction(
   REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST)
 );
+export const getProductDetailAction = createAction(
+  REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL)
+);
 export const createProductAction = createAction(
   REQUEST(PRODUCT_ACTION.CREATE_PRODUCT)
 );
@@ -12,4 +15,7 @@ export const updateProductAction = createAction(
 );
 export const deleteProductAction = createAction(
   REQUEST(PRODUCT_ACTION.DELETE_PRODUCT)
+);
+export const clearProductDetailAction = createAction(
+  REQUEST(PRODUCT_ACTION.CLEAR_PRODUCT_DETAIL)
 );

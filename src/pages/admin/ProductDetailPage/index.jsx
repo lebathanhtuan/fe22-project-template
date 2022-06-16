@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
 import { Button } from "antd";
-import {
-  useParams,
-  useNavigate,
-  generatePath,
-} from "react-router-dom";
+import { useParams, useNavigate, generatePath } from "react-router-dom";
 
-import { ROUTES } from "../../constants/routes";
+import { ROUTES } from "../../../constants/routes";
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();

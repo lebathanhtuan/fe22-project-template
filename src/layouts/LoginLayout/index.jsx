@@ -1,14 +1,15 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
-import Header from "../Header";
 import Footer from "../Footer";
 
-function LoginLayout() {
-  const userName = "Tuấn";
+import { ROUTES } from "../../constants/routes";
 
+function LoginLayout() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (accessToken) return <Navigate to={ROUTES.USER.HOME} />;
   return (
     <>
-      <Header name={userName} />
       <Outlet />
       <Footer />
     </>

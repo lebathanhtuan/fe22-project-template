@@ -9,7 +9,11 @@ export const MainWrapper = styled.div`
 export const ContentWrapper = styled.div`
   width: 100%;
   padding: 16px;
-  margin-left: ${({ isShowSidebar }) =>
-    isShowSidebar ? "200px" : "0"};
+  margin-left: ${({ isShowSidebar }) => (isShowSidebar ? "200px" : "0")};
   transition: 0.3s all;
+`;
+
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
 `;

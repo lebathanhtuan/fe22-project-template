@@ -4,7 +4,7 @@ export const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   padding: 8px;
   border: 3px solid ${({ isSelected }) => (isSelected ? "red" : "black")};
   color: black;

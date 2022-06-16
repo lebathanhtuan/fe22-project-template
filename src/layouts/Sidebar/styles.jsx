@@ -6,7 +6,7 @@ export const SidebarWrapper = styled.div`
   bottom: 0;
   left: ${({ isShow }) => (isShow ? "0" : "-200px")};
   width: 200px;
-  background-color: #d03c3c;
+  background-color: #d3adf7;
   overflow: hidden;
   transition: 0.3s all;
 `;
@@ -20,17 +20,17 @@ export const SidebarItem = styled.div`
   transition: all 0.5s;
 
   &:hover {
-    background-color: #c1272d;
+    background-color: #b37feb;
   }
 
   ${({ active }) =>
     active &&
     css`
-      background-color: #a21f23;
-      border-right: 5px solid #e37171;
+      background-color: #b37feb;
+      border-right: 5px solid #722ed1;
 
       &:hover {
-        background-color: #a21f23;
+        background-color: #b37feb;
       }
     `}
 `;

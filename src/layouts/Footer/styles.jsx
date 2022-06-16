@@ -5,5 +5,5 @@ export const FooterContainer = styled.div`
   justify-content: center;
   padding: 16px;
   height: 100px;
-  background-color: #953e3e;
+  background-color: #efdbff;
 `;

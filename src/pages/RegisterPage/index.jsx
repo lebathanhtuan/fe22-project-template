@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
+import { ROUTES } from "../../constants/routes";
 import { registerAction } from "../../redux/actions";
 
 import * as S from "./styles";
@@ -13,18 +14,18 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  // const { registerData } = useSelector((state) => state.userReducer);
+  const { registerData } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (registerData.errors) {
-  //     registerForm.setFields([
-  //       {
-  //         name: "email",
-  //         errors: [registerData.errors],
-  //       },
-  //     ]);
-  //   }
-  // }, [registerData.errors]);
+  useEffect(() => {
+    if (registerData.error) {
+      registerForm.setFields([
+        {
+          name: "email",
+          errors: [registerData.error],
+        },
+      ]);
+    }
+  }, [registerData.error]);
 
   const handleRegister = (values) => {
     dispatch(
@@ -33,6 +34,10 @@ const RegisterPage = () => {
           fullName: values.fullName,
           email: values.email,
           password: values.password,
+          role: "user",
+        },
+        callback: {
+          goToLogin: () => navigate(ROUTES.LOGIN),
         },
       })
     );
@@ -107,7 +112,7 @@ const RegisterPage = () => {
             type="primary"
             htmlType="submit"
             block
-            // loading={registerData.loading}
+            loading={registerData.loading}
           >
             Đăng ký
           </Button>

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Input, Button, Checkbox } from "antd";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 import { ROUTES } from "../../constants/routes";
-
 import { loginAction } from "../../redux/actions";
 
 import * as S from "./styles";
@@ -13,24 +12,25 @@ const LoginPage = () => {
   const [loginForm] = Form.useForm();
 
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const dispatch = useDispatch();
-  // const { loginData } = useSelector((state) => state.userReducer);
+  const { loginData } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (loginData.errors) {
-  //     loginForm.setFields([
-  //       {
-  //         name: "email",
-  //         errors: [" "],
-  //       },
-  //       {
-  //         name: "password",
-  //         errors: [loginData.errors],
-  //       },
-  //     ]);
-  //   }
-  // }, [loginData.errors]);
+  useEffect(() => {
+    if (loginData.error) {
+      loginForm.setFields([
+        {
+          name: "email",
+          errors: [" "],
+        },
+        {
+          name: "password",
+          errors: [loginData.error],
+        },
+      ]);
+    }
+  }, [loginData.error]);
 
   const handleLogin = (values) => {
     dispatch(
@@ -40,7 +40,8 @@ const LoginPage = () => {
           password: values.password,
         },
         callback: {
-          goToHome: () => navigate(ROUTES.ADMIN.DASHBOARD),
+          goToDashboard: () => navigate(ROUTES.ADMIN.DASHBOARD),
+          goToHome: () => navigate(state?.prevPath || ROUTES.USER.HOME),
         },
       })
     );
@@ -84,7 +85,7 @@ const LoginPage = () => {
             type="primary"
             htmlType="submit"
             block
-            // loading={loginData.loading}
+            loading={loginData.loading}
           >
             Đăng nhập
           </Button>

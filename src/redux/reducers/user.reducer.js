@@ -5,10 +5,14 @@ import { REQUEST, SUCCESS, FAIL, USER_ACTION } from "../contants";
 const initialState = {
   userInfo: {
     data: {},
-    loading: false,
+    loading: true,
     error: null,
   },
   loginData: {
+    loading: false,
+    error: null,
+  },
+  registerData: {
     loading: false,
     error: null,
   },
@@ -31,6 +35,7 @@ const userReducer = createReducer(initialState, {
       ...state,
       userInfo: {
         ...state.userInfo,
+        loading: false,
         data: data,
       },
       loginData: {
@@ -47,6 +52,49 @@ const userReducer = createReducer(initialState, {
         ...state.loginData,
         loading: false,
         error: error,
+      },
+    };
+  },
+
+  [REQUEST(USER_ACTION.REGISTER)]: (state) => {
+    return {
+      ...state,
+      registerData: {
+        ...state.registerData,
+        loading: true,
+        error: null,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.REGISTER)]: (state, action) => {
+    return {
+      ...state,
+      registerData: {
+        ...state.registerData,
+        loading: false,
+      },
+    };
+  },
+  [FAIL(USER_ACTION.REGISTER)]: (state, action) => {
+    const { error } = action.payload;
+    return {
+      ...state,
+      registerData: {
+        ...state.registerData,
+        loading: false,
+        error: error,
+      },
+    };
+  },
+
+  [REQUEST(USER_ACTION.LOGOUT)]: (state) => {
+    localStorage.removeItem("accessToken");
+    return {
+      ...state,
+      userInfo: {
+        data: {},
+        loading: false,
+        error: null,
       },
     };
   },
